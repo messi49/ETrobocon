@@ -1,0 +1,376 @@
+/*
+ *   TOPPERS Software
+ *       Toyohashi Open Platform for Embedded Real-Time Systems
+ *  
+ *   Copyright (C) 2010-2012 by Embedded and Real-Time Systems Laboratory
+ *               Graduate School of Information Science, Nagoya Univ., JAPAN
+ *  
+ *   上記著作権者は，以下の(1)〜(4)の条件を満たす場合に限り，本ソフトウェ
+ *   ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
+ *   変・再配布（以下，利用と呼ぶ）することを無償で許諾する．
+ *   (1) 本ソフトウェアをソースコードの形で利用する場合には，上記の著作
+ *       権表示，この利用条件および下記の無保証規定が，そのままの形でソー
+ *       スコード中に含まれていること．
+ *   (2) 本ソフトウェアを，ライブラリ形式など，他のソフトウェア開発に使
+ *       用できる形で再配布する場合には，再配布に伴うドキュメント（利用
+ *       者マニュアルなど）に，上記の著作権表示，この利用条件および下記
+ *       の無保証規定を掲載すること．
+ *   (3) 本ソフトウェアを，機器に組み込むなど，他のソフトウェア開発に使
+ *       用できない形で再配布する場合には，次のいずれかの条件を満たすこ
+ *       と．
+ *     (a) 再配布に伴うドキュメント（利用者マニュアルなど）に，上記の著
+ *         作権表示，この利用条件および下記の無保証規定を掲載すること．
+ *     (b) 再配布の形態を，別に定める方法によって，TOPPERSプロジェクトに
+ *         報告すること．
+ *   (4) 本ソフトウェアの利用により直接的または間接的に生じるいかなる損
+ *       害からも，上記著作権者およびTOPPERSプロジェクトを免責すること．
+ *       また，本ソフトウェアのユーザまたはエンドユーザからのいかなる理
+ *       由に基づく請求からも，上記著作権者およびTOPPERSプロジェクトを
+ *       免責すること．
+ *  
+ *   本ソフトウェアは，無保証で提供されているものである．上記著作権者お
+ *   よびTOPPERSプロジェクトは，本ソフトウェアに関して，特定の使用目的
+ *   に対する適合性も含めて，いかなる保証も行わない．また，本ソフトウェ
+ *   アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
+ *   の責任を負わない．
+ *
+ */
+
+/*
+ *  サンプルプログラムの定義
+ */
+
+
+/*
+ *  fujiya
+ *	ディスプレイ表示用
+ */
+
+signature sPrintDisplayControl{
+ 
+    //structure用
+    void print_str(void);
+
+    //kp,ki,kd
+    void print_k([in]const char* string1, [in] int16_t value1);
+	
+
+    //値だけ
+    void print1([in] int16_t value1);
+    void print2([in] int16_t value1, [in] int16_t value2);
+    void print3([in] int16_t value1, [in] int16_t value2, [in] int16_t value3);
+    void print4([in] int16_t value1, [in] int16_t value2, [in] int16_t value3, [in] int16_t value4);
+    void print5([in] int16_t value1,[in] int16_t value2,[in] int16_t value3,[in] int16_t value4,[in] int16_t value5);
+
+    void print6([in] int16_t value1,[in] int16_t value2,[in] int16_t value3,[in] int16_t value4,[in] int16_t value5, [in]int16_t value6);
+    void print7([in] int16_t value1,[in] int16_t value2,[in] int16_t value3,[in] int16_t value4,[in] int16_t value5, [in]int16_t value6, [in]int16_t value7);
+
+
+
+    //値とString
+    void printS1([in]const char* string1, [in] int16_t value1);
+    void printS2([in]const char* string1, [in] int16_t value1,[in]const char* string2, [in] int16_t value2);
+    void printS3([in]const char* string1, [in] int16_t value1, [in]const char* string2, [in] int16_t value2, [in]const char* string3, [in] int16_t value3);
+};
+
+[singleton]
+celltype tPrintDisplayTaskBody{
+	entry sPrintDisplayControl ePrintDisplayControl; // タスクパラメータセットの受け口
+
+	call sDisplay cDisplay;
+};
+/*
+ *  PID制御タスク by no- (2013/08/18)
+ */
+signature sPIDControl{
+  void getPIDValue( [in]uint16_t light, [in] uint16_t VAR_lightThreshold,[out] float32_t *turn_f);
+  void getKValue([out] float32_t *kp, [out]float32_t *ki, [out]float32_t *kd);
+  void setKValue([in] uint8_t kind, [in] float32_t value);
+};
+
+[singleton]
+celltype tPIDControllerTaskBody{
+   require tKernel.eKernel;
+   entry sPIDControl ePIDControl;
+
+  var{
+    float32_t kp=0.6;
+    float32_t ki=0;
+    float32_t kd=0.2;
+
+    float32_t integral=0;
+    float32_t diff0=0;
+    float32_t diff1=0;
+    float32_t DELTAT=0.010;  //0.004?
+  };
+
+};
+
+/*
+ *  尻尾制御タスク
+ */
+/*
+ *  尻尾ターゲット角制御
+ */
+signature sTailController{
+    void setAngle([in] int32_t angle);
+    void getAngle([out] int32_t *angle);
+	//void setStopAngle([in] int32_t angle);
+	//void getStopAngle([out] int32_t *angle);
+	//void setDriveAngle([in] int32_t angle);
+	//void getDriveAngle([out] int32_t *angle);
+	void signalStop(void);
+	void signalStart(void);
+    void calibrate(void);
+};
+
+[singleton]
+celltype tTailControllerTaskBody{
+	require tKernel.eKernel;
+	
+	entry sTaskBody eBody;        // タスク本体の受け口
+	entry sTailController eTailController; // 尻尾ターゲット角制御の受け口
+	
+	call sMotor cTailMotor;       // 尻尾モータの呼び口
+	
+	attr{
+		int32_t tailAngleStop;
+		int32_t tailAngleDrive;
+		float32_t kp;
+		int8_t maxPwm;
+		int8_t minPwm;
+	};
+	var{
+		int32_t targetAngle;
+		
+	};
+};
+
+/*
+ *  バランサタスク
+ */
+/*
+ *  バランサタスクパラメータセットのシグニチャ
+ */
+signature sBalancerControl{
+	void setSpeed([in] int16_t speed);
+	void getSpeed([out] int16_t *speed);
+	void setTurn([in] int16_t turn);
+	void getTurn([out] int16_t *turn);
+        void calibrate(void);
+};
+
+[singleton]
+celltype tBalancerTaskBody{
+	require tKernel.eKernel;
+	
+	entry sTaskBody eBody;     // タスク本体の受け口
+	entry sBalancerControl eBalancerControl; // バランサタスクパラメータセットの受け口
+	call sMotor cRightMotor;  // 右モータの呼び口
+	call sMotor cLeftMotor;   // 左モータの呼び口
+	call sSensor cGyroSensor; // ジャイロセンサの呼び口
+	call sBattery cBattery;   // バッテリセンサの呼び口
+	call sBalancer cBalancer; // バランサの呼び口
+
+	//fujiya デバッグ用　ディスプレイ表示
+	call sPrintDisplayControl cPrintDisplayControl; 
+	
+	attr{
+		int16_t maxSpeed;
+		int16_t minSpeed;
+	};
+	var{
+		uint16_t gyroOffset;
+		int16_t speed;
+		int16_t turn;
+        	int32_t count = 0;
+
+	};
+};
+
+/*
+ *  ライントレーサタスク
+ */
+/*
+ *  ライントレーサタスクパラメータセットのシグニチャ
+ */
+signature sLinetracerControl{
+    void setLightThreshold ([in] uint8_t color, [in] uint16_t light);
+    void getLightThreshold ([in] uint8_t color, [out] uint16_t *light);
+    void setEdge([in] int8_t edge);
+    void getEdge([out] int8_t *edge);
+
+
+};
+
+[singleton]
+celltype tLinetracerTaskBody{
+	require tKernel.eKernel;
+
+	entry sTaskBody eBody;     // タスク本体の受け口
+	entry sLinetracerControl eLinetracerControl; // タスクパラメータセットの受け口
+	call sSensor cLightSensor; // 光センサの呼び口
+	call sSensorControl cLightSensorControl; // 光センサ制御の呼び口
+	call sBalancerControl cBalancerControl; // バランサタスクパラメータセットの呼び口
+
+	call sPIDControl cPIDControl; //no(2013/08/18)
+	
+	//fujiya　デバッグ用　ディスプレイ表示
+	call sPrintDisplayControl cPrintDisplayControl; 
+	call sMotor cRightMotor; // モータの回転数の取得のため(2011/08/17 itwu added)
+  	call sMotor cLeftMotor; // モータの回転数の取得のため(2011/08/17 itwu added)
+
+	call sCyclic cBalancerTask;     // バランサタスクの呼び口
+	call sCyclic cLinetracerTask;    // ライントレーサタスクの呼び口
+
+
+	attr{
+		int16_t maxTurn;
+		int16_t minTurn;
+      
+	};
+
+	var{
+		uint16_t lightThreshold;
+      	int8_t  edge;
+        uint16_t black;
+        uint16_t white;
+        int32_t count = 0;
+
+        float32_t xx=0;
+        float32_t yy =0;
+        float32_t sita=0;
+        int32_t preLeft = 0;
+        int32_t preRight = 0;
+	};
+};
+	
+/*
+ *  added by no
+ *	ボタン操作用
+ */
+
+signature sButtonSetValue{
+ 
+    //値だけ
+    void kvalue(void);
+    void threshold(void);
+    void speed(void);
+    void tailAngle(void);
+  
+};
+
+[singleton]
+celltype tButtonSetTaskBody{
+	require tKernel.eKernel;
+	entry sButtonSetValue eButtonSetValue; // タスクパラメータセットの受け口
+
+	call sButton cButton;
+	call sDisplay cDisplay;
+	call sPIDControl cPIDControl; /*added by no 13.08.26*/
+	call sLinetracerControl cLinetracerControl; /*added by no 13.08.27*/
+	call sBalancerControl cBalancerControl; /*added by no*/
+	call sTailController cTailController;
+	call sPrintDisplayControl cPrintDisplayControl; 
+	call sSensor cTouchSensor;
+};
+
+/*
+ *  messi
+ *	ログ出力タスク
+ */
+
+signature sGetLogControl{
+	void portOpen(void); 
+};
+
+ [singleton]
+celltype tGetLogTaskBody{
+	require tKernel.eKernel;
+	
+	entry sTaskBody eBody;     // タスク本体の受け口
+	entry sGetLogControl eGetLogControl; // タスクパラメータセットの受け口
+
+	call sSerialPort cSerialPort; // シリアルポートの呼び口
+    call sSysLog cSysLog;
+	call sLinetracerControl cLinetracerControl;
+    call sBalancerControl cBalancerControl;
+    call sTailController cTailController;
+    call sSemaphore cSemaphore; // セマフォの呼び口
+
+    //messi added
+	call sSensor cLightSensor; // 光センサの呼び口
+
+	//fujiy added
+	call sMotor cRightMotor; // モータの回転数の取得のため
+  	call sMotor cLeftMotor; // モータの回転数の取得のため
+
+
+};
+
+
+
+
+/*
+ *  スタータタスク
+ */
+[singleton]
+celltype tStarterTaskBody{
+	require tKernel.eKernel;  // カーネルのサービスコール
+	
+	entry sTaskBody eBody;        // タスク本体の受け口
+
+	call sCyclic cTailControllerTask;     // 尻尾制御タスクの呼び口
+	call sCyclic cBalancerTask;     // バランサタスクの呼び口
+	call sCyclic cLinetracerTask;    // ライントレーサタスクの呼び口
+	call sCyclic cGetLogTask;		//Log出力タスク
+	call sTailController cTailController; // 尻尾ターゲット角制御の呼び口
+
+	call sSemaphore cSemaphore; // セマフォの呼び口
+	//[optional] call sSensor cTouchSensor;
+	
+	// fujiya:　デバッグ用
+	call sPrintDisplayControl cPrintDisplayControl; 
+
+	// added by no ボタン制御用
+	call sButtonSetValue cButtonSetValue;
+	call sBattery cBattery;   // バッテリセンサの呼び口
+	call sSensor cLightSensor;
+	call sSensor cTouchSensor;
+	call sBalancerControl cBalancerControl; // バランサタスクパラメータセットの呼び口
+	call sLinetracerControl cLinetracerControl;
+
+	call sGetLogControl cGetLogControl;
+};
+
+
+/*
+ *  コマンド受信タスク
+ */
+[singleton]
+celltype tGetCommandTaskBody{
+	require tKernel.eKernel;
+	
+	entry sTaskBody eBody;     // タスク本体の受け口
+
+	call sSerialPort cSerialPort; // シリアルポートの呼び口
+    call sSysLog cSysLog;
+	call sLinetracerControl cLinetracerControl;
+    call sBalancerControl cBalancerControl;
+    call sTailController cTailController;
+    call sSemaphore cSemaphore; // セマフォの呼び口
+	
+
+    //fujiya
+	call sSensor cTouchSensor;
+	call sPrintDisplayControl cPrintDisplayControl; 
+	call sCyclic cBalancerTask;     // バランサタスクの呼び口
+	call sCyclic cLinetracerTask;    // ライントレーサタスクの呼び口
+
+	var{
+        int32_t parameter = 0;
+        int8_t  sign = 1;
+	};
+};
+
+

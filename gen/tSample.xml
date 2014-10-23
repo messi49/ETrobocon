@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TECS:GUI_Tool xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TECS="http://www.toppers.jp/tecs.html">
+
+    <-- //@cell.0 -->
+    <cell Name="AVR" CellType="tAVR" isActive="true" isSingletone="true">
+        <entry Signature="sAvrMotor" Name="eAvrMotor" isArray="false" ArraySize="0"/>
+        <entry Signature="sAvrSensor" Name="eAvrSensor" isArray="false" ArraySize="0"/>
+        <entry Signature="sAvrButton" Name="eAvrButton" isArray="false" ArraySize="0"/>
+        <entry Signature="sAvrBattery" Name="eAvrBattery" isArray="false" ArraySize="0"/>
+        <entry Signature="sAvrPower" Name="eAvrPower" isArray="false" ArraySize="0"/>
+        <entry Signature="sCyclic" Name="eCyclic" isArray="false" ArraySize="0"/>
+    </cell>
+
+    <-- //@cell.1 -->
+    <cell Name="Button" CellType="tButton" isActive="true" isSingletone="true">
+        <entry Signature="sButton" Name="eButton" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrButton" Name="cAvrButton" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+    </cell>
+
+    <-- //@cell.2 -->
+    <cell Name="CheckNXTButtonBody" CellType="tCheckNXTButtonBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="siHandlerBody" Name="eiBody" isArray="false" ArraySize="0"/>
+        <call Signature="sButton" Name="cButton" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sFlash" Name="cFlash" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+    </cell>
+
+    <-- //@cell.3 -->
+    <cell Name="CheckNXTButton" CellType="tCyclicHandler" isActive="true" isSingletone="false">
+        <entry Signature="sCyclic" Name="eCyclic" isArray="false" ArraySize="0"/>
+        <call Signature="siHandlerBody" Name="ciBody" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="id" Type="ID" Value="C_EXP( \"CYCHDLRID_$id$\")"/>
+        <attribute Name="attribute" Type="ATR" Value="C_EXP( \"TA_STA\")"/>
+        <attribute Name="cyclicTime" Type="RELTIM" Value="10"/>
+        <attribute Name="cyclicPhase" Type="RELTIM" Value="1"/>
+    </cell>
+
+    <-- //@cell.4 -->
+    <cell Name="BluetoothSemapohre" CellType="tSemaphore" isActive="false" isSingletone="false">
+        <entry Signature="sSemaphore" Name="eSemaphore" isArray="false" ArraySize="0"/>
+        <entry Signature="siSemaphore" Name="eiSemaphore" isArray="false" ArraySize="0"/>
+        <attribute Name="id" Type="ID" Value="C_EXP( \"SEMID_$id$\")"/>
+        <attribute Name="attribute" Type="ATR" Value="C_EXP( \"TA_TPRI\")"/>
+        <attribute Name="count" Type="uint32_t" Value="0"/>
+        <attribute Name="max" Type="uint32_t" Value="1"/>
+    </cell>
+
+    <-- //@cell.5 -->
+    <cell Name="Bluetooth" CellType="tBluetooth" isActive="true" isSingletone="true">
+        <entry Signature="sBluetooth" Name="eBluetooth" isArray="false" ArraySize="0"/>
+        <call Signature="sSemaphore" Name="cSemaphore" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="keyCode" Type="char*" Value=""1234""/>
+    </cell>
+
+    <-- //@cell.6 -->
+    <cell Name="ASPKernel" CellType="tKernel" isActive="false" isSingletone="true">
+        <entry Signature="sKernel" Name="eKernel" isArray="false" ArraySize="0"/>
+        <entry Signature="siKernel" Name="eiKernel" isArray="false" ArraySize="0"/>
+    </cell>
+
+    <-- //@cell.7 -->
+    <cell Name="ConnectBluetooth" CellType="tConnectBluetooth" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sTaskBody" Name="eConnectBluetooth" isArray="false" ArraySize="0"/>
+        <call Signature="sBluetooth" Name="cBluetooth" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="deviceNameSize" Type="uint8_t" Value="16"/>
+        <attribute Name="deviceName" Type="const char*" Value="{'E', 'T', '1', '2', '3', '4', '\0', }"/>
+    </cell>
+
+    <-- //@cell.8 -->
+    <cell Name="ConnectBluetoothTask" CellType="tTask" isActive="true" isSingletone="false">
+        <entry Signature="sTask" Name="eTask" isArray="false" ArraySize="0"/>
+        <entry Signature="siTask" Name="eiTask" isArray="false" ArraySize="0"/>
+        <call Signature="sTaskBody" Name="cBody" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTaskExceptionBody" Name="cExceptionBody" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+        <attribute Name="id" Type="ID" Value="C_EXP( \"TSKID_$id$\")"/>
+        <attribute Name="taskAttribute" Type="ATR" Value="C_EXP( \"TA_ACT\")"/>
+        <attribute Name="exceptionAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="priority" Type="PRI" Value="2"/>
+        <attribute Name="stackSize" Type="SIZE" Value="512"/>
+    </cell>
+
+    <-- //@cell.9 -->
+    <cell Name="SerialPort1" CellType="tSerialPort" isActive="false" isSingletone="false">
+        <entry Signature="sSerialPort" Name="eSerialPort" isArray="false" ArraySize="0"/>
+        <entry Signature="snSerialPort" Name="enSerialPort" isArray="false" ArraySize="0"/>
+        <call Signature="sSIOPort" Name="cSIOPort" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <entry Signature="siSIOCBR" Name="eiSIOCBR" isArray="false" ArraySize="0"/>
+        <attribute Name="receiveBufferSize" Type="uint_t" Value="256"/>
+        <attribute Name="sendBufferSize" Type="uint_t" Value="256"/>
+    </cell>
+
+    <-- //@cell.10 -->
+    <cell Name="SIOPortTarget" CellType="tSIOPortNXT" isActive="true" isSingletone="false">
+        <entry Signature="sSIOPort" Name="eSIOPort" isArray="false" ArraySize="0"/>
+        <call Signature="siSIOCBR" Name="ciSIOCBR" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBluetooth" Name="cBluetooth" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSemaphore" Name="cSemaphore" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="uartBase" Type="void*" Value="(void*)0xFFFC4000"/>
+    </cell>
+
+    <-- //@cell.11 -->
+    <cell Name="PutLogTarget" CellType="tPutLogMindstormsNXT" isActive="false" isSingletone="false">
+        <entry Signature="sPutLog" Name="ePutLog" isArray="false" ArraySize="0"/>
+        <call Signature="sBluetooth" Name="cBluetooth" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSIOPort" Name="cSIOPort" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="US1_BASE" Type="uint32_t" Value="0xFFFC4000"/>
+        <attribute Name="sendBufferSize" Type="uint32_t" Value="128"/>
+        <attribute Name="sendBufferPointerInitialize" Type="char*" Value="C_EXP( \"NULL\")"/>
+    </cell>
+
+    <-- //@cell.12 -->
+    <cell Name="SysLog" CellType="tSysLog" isActive="false" isSingletone="true">
+        <entry Signature="sSysLog" Name="eSysLog" isArray="false" ArraySize="0"/>
+        <call Signature="sPutLog" Name="cPutLog" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="logBufferSize" Type="uint_t" Value="32"/>
+    </cell>
+
+    <-- //@cell.13 -->
+    <cell Name="LogTask" CellType="tLogTask" isActive="true" isSingletone="true">
+        <entry Signature="sTaskBody" Name="eLogTaskBody" isArray="false" ArraySize="0"/>
+        <entry Signature="sTask" Name="eTask" isArray="false" ArraySize="0"/>
+        <entry Signature="siTask" Name="eiTask" isArray="false" ArraySize="0"/>
+        <call Signature="sTaskExceptionBody" Name="cExceptionBody" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+        <entry Signature="sLogTask" Name="eLogTask" isArray="false" ArraySize="0"/>
+        <call Signature="sSerialPort" Name="cSerialPort" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="snSerialPort" Name="cnSerialPort" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSysLog" Name="cSysLog" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sPutLog" Name="cPutLog" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="taskAttribute" Type="ATR" Value="C_EXP( \"TA_ACT\")"/>
+        <attribute Name="exceptionAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="priority" Type="PRI" Value="3"/>
+        <attribute Name="stackSize" Type="SIZE" Value="LogTaskStackSize"/>
+        <attribute Name="interval" Type="RELTIM" Value="10"/>
+        <attribute Name="flushWait" Type="RELTIM" Value="1"/>
+    </cell>
+
+    <-- //@cell.14 -->
+    <cell Name="GyroSensor" CellType="tGyroSensor" isActive="false" isSingletone="false">
+        <entry Signature="sSensor" Name="eSensor" isArray="false" ArraySize="0"/>
+        <entry Signature="siSensorDriver" Name="eiSensorDriver" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrSensor" Name="cAvrSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="portNumber" Type="uint8_t" Value="NXT_PORT_S1"/>
+    </cell>
+
+    <-- //@cell.15 -->
+    <cell Name="SonicSensor" CellType="tSonicSensor" isActive="true" isSingletone="false">
+        <entry Signature="sSensor" Name="eSensor" isArray="false" ArraySize="0"/>
+        <entry Signature="siSensorDriver" Name="eiSensorDriver" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrSensor" Name="cAvrSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="portNumber" Type="uint8_t" Value="NXT_PORT_S2"/>
+    </cell>
+
+    <-- //@cell.16 -->
+    <cell Name="LightSensor" CellType="tLightSensor" isActive="true" isSingletone="false">
+        <entry Signature="sSensor" Name="eSensor" isArray="false" ArraySize="0"/>
+        <entry Signature="sSensorControl" Name="eSensorControl" isArray="false" ArraySize="0"/>
+        <entry Signature="siSensorDriver" Name="eiSensorDriver" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrSensor" Name="cAvrSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="portNumber" Type="uint8_t" Value="NXT_PORT_S3"/>
+    </cell>
+
+    <-- //@cell.17 -->
+    <cell Name="TouchSensor" CellType="tTouchSensor" isActive="false" isSingletone="false">
+        <entry Signature="sSensor" Name="eSensor" isArray="false" ArraySize="0"/>
+        <entry Signature="siSensorDriver" Name="eiSensorDriver" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrSensor" Name="cAvrSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="portNumber" Type="uint8_t" Value="NXT_PORT_S4"/>
+    </cell>
+
+    <-- //@cell.18 -->
+    <cell Name="SensorDriver" CellType="tSensorDriver" isActive="true" isSingletone="true">
+        <call Signature="siSensorDriver" Name="ciSensorDriver" isArray="true" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="interruptNumber" Type="INTNO" Value="C_EXP( \"INTNO_TC0_PID\")"/>
+        <attribute Name="interruptAttribute" Type="ATR" Value="C_EXP( \"(TA_ENAINT | TA_LOWLEVEL)\")"/>
+        <attribute Name="interruptPriority" Type="PRI" Value="-4"/>
+    </cell>
+
+    <-- //@cell.19 -->
+    <cell Name="TailMotor" CellType="tMotor" isActive="false" isSingletone="false">
+        <entry Signature="sMotor" Name="eMotor" isArray="false" ArraySize="0"/>
+        <entry Signature="siMotorInterrupt" Name="eiMotorInterrupt" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrMotor" Name="cAvrMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="portNumber" Type="uint8_t" Value="NXT_PORT_A"/>
+    </cell>
+
+    <-- //@cell.20 -->
+    <cell Name="RightMotor" CellType="tMotor" isActive="false" isSingletone="false">
+        <entry Signature="sMotor" Name="eMotor" isArray="false" ArraySize="0"/>
+        <entry Signature="siMotorInterrupt" Name="eiMotorInterrupt" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrMotor" Name="cAvrMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="portNumber" Type="uint8_t" Value="NXT_PORT_B"/>
+    </cell>
+
+    <-- //@cell.21 -->
+    <cell Name="LeftMotor" CellType="tMotor" isActive="false" isSingletone="false">
+        <entry Signature="sMotor" Name="eMotor" isArray="false" ArraySize="0"/>
+        <entry Signature="siMotorInterrupt" Name="eiMotorInterrupt" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrMotor" Name="cAvrMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="portNumber" Type="uint8_t" Value="NXT_PORT_C"/>
+    </cell>
+
+    <-- //@cell.22 -->
+    <cell Name="RotaryEncoder" CellType="tRotaryEncoder" isActive="true" isSingletone="true">
+        <call Signature="siMotorInterrupt" Name="ciMotorInterrupt" isArray="true" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="PIOBase" Type="void*" Value="(void*)0xFFFFF400"/>
+        <attribute Name="interruptNumber" Type="INTNO" Value="C_EXP( \"INTNO_PIOA_PID\")"/>
+    </cell>
+
+    <-- //@cell.23 -->
+    <cell Name="Battery" CellType="tBattery" isActive="false" isSingletone="true">
+        <entry Signature="sBattery" Name="eBattery" isArray="false" ArraySize="0"/>
+        <call Signature="sAvrBattery" Name="cAvrBattery" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+    </cell>
+
+    <-- //@cell.24 -->
+    <cell Name="Display" CellType="tDisplay" isActive="true" isSingletone="true">
+        <entry Signature="sDisplay" Name="eDisplay" isArray="false" ArraySize="0"/>
+        <attribute Name="width" Type="uint8_t" Value="100"/>
+        <attribute Name="depth" Type="uint8_t" Value="8"/>
+        <attribute Name="cellWidth" Type="uint8_t" Value="6"/>
+        <attribute Name="charWidth" Type="uint8_t" Value="(100/6)"/>
+        <attribute Name="charDepth" Type="uint8_t" Value="(8)"/>
+    </cell>
+
+    <-- //@cell.25 -->
+    <cell Name="Sound" CellType="tSound" isActive="true" isSingletone="true">
+        <entry Signature="sSound" Name="eSound" isArray="false" ArraySize="0"/>
+    </cell>
+
+    <-- //@cell.26 -->
+    <cell Name="Balancer" CellType="tBalancer" isActive="true" isSingletone="true">
+        <entry Signature="sBalancer" Name="eBalancer" isArray="false" ArraySize="0"/>
+    </cell>
+
+    <-- //@cell.27 -->
+    <cell Name="PIDControllerTaskBody" CellType="tPIDControllerTaskBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sPIDControl" Name="ePIDControl" isArray="false" ArraySize="0"/>
+    </cell>
+
+    <-- //@cell.28 -->
+    <cell Name="TailControllerTaskBody" CellType="tTailControllerTaskBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sTaskBody" Name="eBody" isArray="false" ArraySize="0"/>
+        <entry Signature="sTailController" Name="eTailController" isArray="false" ArraySize="0"/>
+        <call Signature="sMotor" Name="cTailMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="tailAngleStop" Type="int32_t" Value="106"/>
+        <attribute Name="tailAngleDrive" Type="int32_t" Value="60"/>
+        <attribute Name="kp" Type="float32_t" Value="2.5"/>
+        <attribute Name="maxPwm" Type="int8_t" Value="60"/>
+        <attribute Name="minPwm" Type="int8_t" Value="-60"/>
+    </cell>
+
+    <-- //@cell.29 -->
+    <cell Name="TailControllerTask" CellType="tCyclicTask" isActive="true" isSingletone="false">
+        <entry Signature="sCyclic" Name="eCyclic" isArray="false" ArraySize="0"/>
+        <entry Signature="sTask" Name="eTask" isArray="false" ArraySize="0"/>
+        <entry Signature="siTask" Name="eiTask" isArray="false" ArraySize="0"/>
+        <call Signature="sTaskBody" Name="cBody" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTaskExceptionBody" Name="cExceptionBody" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+        <attribute Name="cyclicAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="cyclicTime" Type="RELTIM" Value="4"/>
+        <attribute Name="cyclicPhase" Type="RELTIM" Value="1"/>
+        <attribute Name="exceptionAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="priority" Type="PRI" Value="5"/>
+        <attribute Name="stackSize" Type="SIZE" Value="512"/>
+    </cell>
+
+    <-- //@cell.30 -->
+    <cell Name="BalancerTaskBody" CellType="tBalancerTaskBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sTaskBody" Name="eBody" isArray="false" ArraySize="0"/>
+        <entry Signature="sBalancerControl" Name="eBalancerControl" isArray="false" ArraySize="0"/>
+        <call Signature="sMotor" Name="cRightMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sMotor" Name="cLeftMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSensor" Name="cGyroSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBattery" Name="cBattery" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBalancer" Name="cBalancer" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sPrintDisplayControl" Name="cPrintDisplayControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="maxSpeed" Type="int16_t" Value="100"/>
+        <attribute Name="minSpeed" Type="int16_t" Value="-100"/>
+    </cell>
+
+    <-- //@cell.31 -->
+    <cell Name="BalancerTask" CellType="tCyclicTask" isActive="true" isSingletone="false">
+        <entry Signature="sCyclic" Name="eCyclic" isArray="false" ArraySize="0"/>
+        <entry Signature="sTask" Name="eTask" isArray="false" ArraySize="0"/>
+        <entry Signature="siTask" Name="eiTask" isArray="false" ArraySize="0"/>
+        <call Signature="sTaskBody" Name="cBody" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTaskExceptionBody" Name="cExceptionBody" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+        <attribute Name="cyclicAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="cyclicTime" Type="RELTIM" Value="4"/>
+        <attribute Name="cyclicPhase" Type="RELTIM" Value="1"/>
+        <attribute Name="exceptionAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="priority" Type="PRI" Value="1"/>
+        <attribute Name="stackSize" Type="SIZE" Value="1024"/>
+    </cell>
+
+    <-- //@cell.32 -->
+    <cell Name="LinetracerTaskBody" CellType="tLinetracerTaskBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sTaskBody" Name="eBody" isArray="false" ArraySize="0"/>
+        <entry Signature="sLinetracerControl" Name="eLinetracerControl" isArray="false" ArraySize="0"/>
+        <call Signature="sSensor" Name="cLightSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSensorControl" Name="cLightSensorControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBalancerControl" Name="cBalancerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sPIDControl" Name="cPIDControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sPrintDisplayControl" Name="cPrintDisplayControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sMotor" Name="cRightMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sMotor" Name="cLeftMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sCyclic" Name="cBalancerTask" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sCyclic" Name="cLinetracerTask" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <attribute Name="maxTurn" Type="int16_t" Value="100"/>
+        <attribute Name="minTurn" Type="int16_t" Value="-100"/>
+    </cell>
+
+    <-- //@cell.33 -->
+    <cell Name="LinetracerTask" CellType="tCyclicTask" isActive="true" isSingletone="false">
+        <entry Signature="sCyclic" Name="eCyclic" isArray="false" ArraySize="0"/>
+        <entry Signature="sTask" Name="eTask" isArray="false" ArraySize="0"/>
+        <entry Signature="siTask" Name="eiTask" isArray="false" ArraySize="0"/>
+        <call Signature="sTaskBody" Name="cBody" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTaskExceptionBody" Name="cExceptionBody" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+        <attribute Name="cyclicAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="cyclicTime" Type="RELTIM" Value="10"/>
+        <attribute Name="cyclicPhase" Type="RELTIM" Value="1"/>
+        <attribute Name="exceptionAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="priority" Type="PRI" Value="4"/>
+        <attribute Name="stackSize" Type="SIZE" Value="512"/>
+    </cell>
+
+    <-- //@cell.34 -->
+    <cell Name="StartSemaphore" CellType="tSemaphore" isActive="false" isSingletone="false">
+        <entry Signature="sSemaphore" Name="eSemaphore" isArray="false" ArraySize="0"/>
+        <entry Signature="siSemaphore" Name="eiSemaphore" isArray="false" ArraySize="0"/>
+        <attribute Name="id" Type="ID" Value="C_EXP( \"SEMID_$id$\")"/>
+        <attribute Name="attribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="count" Type="uint32_t" Value="0"/>
+        <attribute Name="max" Type="uint32_t" Value="1"/>
+    </cell>
+
+    <-- //@cell.35 -->
+    <cell Name="StarterTaskBody" CellType="tStarterTaskBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sTaskBody" Name="eBody" isArray="false" ArraySize="0"/>
+        <call Signature="sCyclic" Name="cTailControllerTask" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sCyclic" Name="cBalancerTask" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sCyclic" Name="cLinetracerTask" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sCyclic" Name="cGetLogTask" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTailController" Name="cTailController" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSemaphore" Name="cSemaphore" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sPrintDisplayControl" Name="cPrintDisplayControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sButtonSetValue" Name="cButtonSetValue" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBattery" Name="cBattery" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSensor" Name="cLightSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSensor" Name="cTouchSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBalancerControl" Name="cBalancerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sLinetracerControl" Name="cLinetracerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sGetLogControl" Name="cGetLogControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+    </cell>
+
+    <-- //@cell.36 -->
+    <cell Name="StarterTask" CellType="tTask" isActive="true" isSingletone="false">
+        <entry Signature="sTask" Name="eTask" isArray="false" ArraySize="0"/>
+        <entry Signature="siTask" Name="eiTask" isArray="false" ArraySize="0"/>
+        <call Signature="sTaskBody" Name="cBody" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTaskExceptionBody" Name="cExceptionBody" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+        <attribute Name="id" Type="ID" Value="C_EXP( \"TSKID_$id$\")"/>
+        <attribute Name="taskAttribute" Type="ATR" Value="C_EXP( \"TA_ACT\")"/>
+        <attribute Name="exceptionAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="priority" Type="PRI" Value="6"/>
+        <attribute Name="stackSize" Type="SIZE" Value="1024"/>
+    </cell>
+
+    <-- //@cell.37 -->
+    <cell Name="GetCommandTaskBody" CellType="tGetCommandTaskBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sTaskBody" Name="eBody" isArray="false" ArraySize="0"/>
+        <call Signature="sSerialPort" Name="cSerialPort" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSysLog" Name="cSysLog" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sLinetracerControl" Name="cLinetracerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBalancerControl" Name="cBalancerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTailController" Name="cTailController" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSemaphore" Name="cSemaphore" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSensor" Name="cTouchSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sPrintDisplayControl" Name="cPrintDisplayControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sCyclic" Name="cBalancerTask" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sCyclic" Name="cLinetracerTask" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+    </cell>
+
+    <-- //@cell.38 -->
+    <cell Name="GetCommandTask" CellType="tTask" isActive="true" isSingletone="false">
+        <entry Signature="sTask" Name="eTask" isArray="false" ArraySize="0"/>
+        <entry Signature="siTask" Name="eiTask" isArray="false" ArraySize="0"/>
+        <call Signature="sTaskBody" Name="cBody" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTaskExceptionBody" Name="cExceptionBody" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+        <attribute Name="id" Type="ID" Value="C_EXP( \"TSKID_$id$\")"/>
+        <attribute Name="taskAttribute" Type="ATR" Value="C_EXP( \"TA_ACT\")"/>
+        <attribute Name="exceptionAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="priority" Type="PRI" Value="5"/>
+        <attribute Name="stackSize" Type="SIZE" Value="1024"/>
+    </cell>
+
+    <-- //@cell.39 -->
+    <cell Name="PrintDisplayTaskBody" CellType="tPrintDisplayTaskBody" isActive="false" isSingletone="true">
+        <entry Signature="sPrintDisplayControl" Name="ePrintDisplayControl" isArray="false" ArraySize="0"/>
+        <call Signature="sDisplay" Name="cDisplay" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+    </cell>
+
+    <-- //@cell.40 -->
+    <cell Name="ButtonSetTaskBody" CellType="tButtonSetTaskBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sButtonSetValue" Name="eButtonSetValue" isArray="false" ArraySize="0"/>
+        <call Signature="sButton" Name="cButton" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sDisplay" Name="cDisplay" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sPIDControl" Name="cPIDControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sLinetracerControl" Name="cLinetracerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBalancerControl" Name="cBalancerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTailController" Name="cTailController" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sPrintDisplayControl" Name="cPrintDisplayControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSensor" Name="cTouchSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+    </cell>
+
+    <-- //@cell.41 -->
+    <cell Name="GetLogTaskBody" CellType="tGetLogTaskBody" isActive="false" isSingletone="true">
+        <call Signature="sKernel" Name="_require_call_port_tKernel_eKernel" isArray="false" ArraySize="0" isOptional="false" isRequire="true"/>
+        <entry Signature="sTaskBody" Name="eBody" isArray="false" ArraySize="0"/>
+        <entry Signature="sGetLogControl" Name="eGetLogControl" isArray="false" ArraySize="0"/>
+        <call Signature="sSerialPort" Name="cSerialPort" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSysLog" Name="cSysLog" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sLinetracerControl" Name="cLinetracerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sBalancerControl" Name="cBalancerControl" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTailController" Name="cTailController" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSemaphore" Name="cSemaphore" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sSensor" Name="cLightSensor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sMotor" Name="cRightMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sMotor" Name="cLeftMotor" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+    </cell>
+
+    <-- //@cell.42 -->
+    <cell Name="GetLogTask" CellType="tCyclicTask" isActive="true" isSingletone="false">
+        <entry Signature="sCyclic" Name="eCyclic" isArray="false" ArraySize="0"/>
+        <entry Signature="sTask" Name="eTask" isArray="false" ArraySize="0"/>
+        <entry Signature="siTask" Name="eiTask" isArray="false" ArraySize="0"/>
+        <call Signature="sTaskBody" Name="cBody" isArray="false" ArraySize="0" isOptional="false" isRequire="false"/>
+        <call Signature="sTaskExceptionBody" Name="cExceptionBody" isArray="false" ArraySize="0" isOptional="true" isRequire="false"/>
+        <attribute Name="cyclicAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="cyclicTime" Type="RELTIM" Value="20"/>
+        <attribute Name="cyclicPhase" Type="RELTIM" Value="1"/>
+        <attribute Name="exceptionAttribute" Type="ATR" Value="C_EXP( \"TA_NULL\")"/>
+        <attribute Name="priority" Type="PRI" Value="6"/>
+        <attribute Name="stackSize" Type="SIZE" Value="1024"/>
+    </cell>
+
+    <--  SrcPath=::Button.cAvrButton DstPath=::AVR.eAvrButton -->
+    <join target="//@cell.0/@entry.2" source="//@cell.1/@call.0"/>
+
+    <--  SrcPath=::CheckNXTButtonBody.cButton DstPath=::Button.eButton -->
+    <join target="//@cell.1/@entry.0" source="//@cell.2/@call.1"/>
+
+    <--  SrcPath=::CheckNXTButtonBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.2/@call.0"/>
+
+    <--  SrcPath=::CheckNXTButton.ciBody DstPath=::CheckNXTButtonBody.eiBody -->
+    <join target="//@cell.2/@entry.0" source="//@cell.3/@call.0"/>
+
+    <--  SrcPath=::Bluetooth.cSemaphore DstPath=::BluetoothSemapohre.eSemaphore -->
+    <join target="//@cell.4/@entry.0" source="//@cell.5/@call.0"/>
+
+    <--  SrcPath=::ConnectBluetooth.cBluetooth DstPath=::Bluetooth.eBluetooth -->
+    <join target="//@cell.5/@entry.0" source="//@cell.7/@call.1"/>
+
+    <--  SrcPath=::ConnectBluetooth._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.7/@call.0"/>
+
+    <--  SrcPath=::ConnectBluetoothTask.cBody DstPath=::ConnectBluetooth.eConnectBluetooth -->
+    <join target="//@cell.7/@entry.0" source="//@cell.8/@call.0"/>
+
+    <--  SrcPath=::SerialPort1.cSIOPort DstPath=::SIOPortTarget.eSIOPort -->
+    <join target="//@cell.10/@entry.0" source="//@cell.9/@call.0"/>
+
+    <--  SrcPath=::SIOPortTarget.ciSIOCBR DstPath=::SerialPort1.eiSIOCBR -->
+    <join target="//@cell.9/@entry.2" source="//@cell.10/@call.0"/>
+
+    <--  SrcPath=::SIOPortTarget.cBluetooth DstPath=::Bluetooth.eBluetooth -->
+    <join target="//@cell.5/@entry.0" source="//@cell.10/@call.1"/>
+
+    <--  SrcPath=::SIOPortTarget.cSemaphore DstPath=::BluetoothSemapohre.eSemaphore -->
+    <join target="//@cell.4/@entry.0" source="//@cell.10/@call.2"/>
+
+    <--  SrcPath=::PutLogTarget.cBluetooth DstPath=::Bluetooth.eBluetooth -->
+    <join target="//@cell.5/@entry.0" source="//@cell.11/@call.0"/>
+
+    <--  SrcPath=::PutLogTarget.cSIOPort DstPath=::SIOPortTarget.eSIOPort -->
+    <join target="//@cell.10/@entry.0" source="//@cell.11/@call.1"/>
+
+    <--  SrcPath=::SysLog.cPutLog DstPath=::PutLogTarget.ePutLog -->
+    <join target="//@cell.11/@entry.0" source="//@cell.12/@call.0"/>
+
+    <--  SrcPath=::LogTask.cSerialPort DstPath=::SerialPort1.eSerialPort -->
+    <join target="//@cell.9/@entry.0" source="//@cell.13/@call.1"/>
+
+    <--  SrcPath=::LogTask.cnSerialPort DstPath=::SerialPort1.enSerialPort -->
+    <join target="//@cell.9/@entry.1" source="//@cell.13/@call.2"/>
+
+    <--  SrcPath=::LogTask.cSysLog DstPath=::SysLog.eSysLog -->
+    <join target="//@cell.12/@entry.0" source="//@cell.13/@call.3"/>
+
+    <--  SrcPath=::LogTask.cPutLog DstPath=::PutLogTarget.ePutLog -->
+    <join target="//@cell.11/@entry.0" source="//@cell.13/@call.4"/>
+
+    <--  SrcPath=::GyroSensor.cAvrSensor DstPath=::AVR.eAvrSensor -->
+    <join target="//@cell.0/@entry.1" source="//@cell.14/@call.0"/>
+
+    <--  SrcPath=::SonicSensor.cAvrSensor DstPath=::AVR.eAvrSensor -->
+    <join target="//@cell.0/@entry.1" source="//@cell.15/@call.0"/>
+
+    <--  SrcPath=::LightSensor.cAvrSensor DstPath=::AVR.eAvrSensor -->
+    <join target="//@cell.0/@entry.1" source="//@cell.16/@call.0"/>
+
+    <--  SrcPath=::TouchSensor.cAvrSensor DstPath=::AVR.eAvrSensor -->
+    <join target="//@cell.0/@entry.1" source="//@cell.17/@call.0"/>
+
+    <--  SrcPath=::SensorDriver.ciSensorDriver DstPath=::GyroSensor.eiSensorDriver -->
+    <join target="//@cell.14/@entry.1" source="//@cell.18/@call.0"/>
+
+    <--  SrcPath=::TailMotor.cAvrMotor DstPath=::AVR.eAvrMotor -->
+    <join target="//@cell.0/@entry.0" source="//@cell.19/@call.0"/>
+
+    <--  SrcPath=::RightMotor.cAvrMotor DstPath=::AVR.eAvrMotor -->
+    <join target="//@cell.0/@entry.0" source="//@cell.20/@call.0"/>
+
+    <--  SrcPath=::LeftMotor.cAvrMotor DstPath=::AVR.eAvrMotor -->
+    <join target="//@cell.0/@entry.0" source="//@cell.21/@call.0"/>
+
+    <--  SrcPath=::RotaryEncoder.ciMotorInterrupt DstPath=::TailMotor.eiMotorInterrupt -->
+    <join target="//@cell.19/@entry.1" source="//@cell.22/@call.0"/>
+
+    <--  SrcPath=::Battery.cAvrBattery DstPath=::AVR.eAvrBattery -->
+    <join target="//@cell.0/@entry.3" source="//@cell.23/@call.0"/>
+
+    <--  SrcPath=::PIDControllerTaskBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.27/@call.0"/>
+
+    <--  SrcPath=::TailControllerTaskBody.cTailMotor DstPath=::TailMotor.eMotor -->
+    <join target="//@cell.19/@entry.0" source="//@cell.28/@call.1"/>
+
+    <--  SrcPath=::TailControllerTaskBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.28/@call.0"/>
+
+    <--  SrcPath=::TailControllerTask.cBody DstPath=::TailControllerTaskBody.eBody -->
+    <join target="//@cell.28/@entry.0" source="//@cell.29/@call.0"/>
+
+    <--  SrcPath=::BalancerTaskBody.cRightMotor DstPath=::RightMotor.eMotor -->
+    <join target="//@cell.20/@entry.0" source="//@cell.30/@call.1"/>
+
+    <--  SrcPath=::BalancerTaskBody.cLeftMotor DstPath=::LeftMotor.eMotor -->
+    <join target="//@cell.21/@entry.0" source="//@cell.30/@call.2"/>
+
+    <--  SrcPath=::BalancerTaskBody.cGyroSensor DstPath=::GyroSensor.eSensor -->
+    <join target="//@cell.14/@entry.0" source="//@cell.30/@call.3"/>
+
+    <--  SrcPath=::BalancerTaskBody.cBattery DstPath=::Battery.eBattery -->
+    <join target="//@cell.23/@entry.0" source="//@cell.30/@call.4"/>
+
+    <--  SrcPath=::BalancerTaskBody.cBalancer DstPath=::Balancer.eBalancer -->
+    <join target="//@cell.26/@entry.0" source="//@cell.30/@call.5"/>
+
+    <--  SrcPath=::BalancerTaskBody.cPrintDisplayControl DstPath=::PrintDisplayTaskBody.ePrintDisplayControl -->
+    <join target="//@cell.39/@entry.0" source="//@cell.30/@call.6"/>
+
+    <--  SrcPath=::BalancerTaskBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.30/@call.0"/>
+
+    <--  SrcPath=::BalancerTask.cBody DstPath=::BalancerTaskBody.eBody -->
+    <join target="//@cell.30/@entry.0" source="//@cell.31/@call.0"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cLightSensor DstPath=::LightSensor.eSensor -->
+    <join target="//@cell.16/@entry.0" source="//@cell.32/@call.1"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cLightSensorControl DstPath=::LightSensor.eSensorControl -->
+    <join target="//@cell.16/@entry.1" source="//@cell.32/@call.2"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cBalancerControl DstPath=::BalancerTaskBody.eBalancerControl -->
+    <join target="//@cell.30/@entry.1" source="//@cell.32/@call.3"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cPIDControl DstPath=::PIDControllerTaskBody.ePIDControl -->
+    <join target="//@cell.27/@entry.0" source="//@cell.32/@call.4"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cPrintDisplayControl DstPath=::PrintDisplayTaskBody.ePrintDisplayControl -->
+    <join target="//@cell.39/@entry.0" source="//@cell.32/@call.5"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cRightMotor DstPath=::RightMotor.eMotor -->
+    <join target="//@cell.20/@entry.0" source="//@cell.32/@call.6"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cLeftMotor DstPath=::LeftMotor.eMotor -->
+    <join target="//@cell.21/@entry.0" source="//@cell.32/@call.7"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cBalancerTask DstPath=::BalancerTask.eCyclic -->
+    <join target="//@cell.31/@entry.0" source="//@cell.32/@call.8"/>
+
+    <--  SrcPath=::LinetracerTaskBody.cLinetracerTask DstPath=::LinetracerTask.eCyclic -->
+    <join target="//@cell.33/@entry.0" source="//@cell.32/@call.9"/>
+
+    <--  SrcPath=::LinetracerTaskBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.32/@call.0"/>
+
+    <--  SrcPath=::LinetracerTask.cBody DstPath=::LinetracerTaskBody.eBody -->
+    <join target="//@cell.32/@entry.0" source="//@cell.33/@call.0"/>
+
+    <--  SrcPath=::StarterTaskBody.cTailControllerTask DstPath=::TailControllerTask.eCyclic -->
+    <join target="//@cell.29/@entry.0" source="//@cell.35/@call.1"/>
+
+    <--  SrcPath=::StarterTaskBody.cBalancerTask DstPath=::BalancerTask.eCyclic -->
+    <join target="//@cell.31/@entry.0" source="//@cell.35/@call.2"/>
+
+    <--  SrcPath=::StarterTaskBody.cLinetracerTask DstPath=::LinetracerTask.eCyclic -->
+    <join target="//@cell.33/@entry.0" source="//@cell.35/@call.3"/>
+
+    <--  SrcPath=::StarterTaskBody.cTailController DstPath=::TailControllerTaskBody.eTailController -->
+    <join target="//@cell.28/@entry.1" source="//@cell.35/@call.5"/>
+
+    <--  SrcPath=::StarterTaskBody.cGetLogTask DstPath=::GetLogTask.eCyclic -->
+    <join target="//@cell.42/@entry.0" source="//@cell.35/@call.4"/>
+
+    <--  SrcPath=::StarterTaskBody.cSemaphore DstPath=::StartSemaphore.eSemaphore -->
+    <join target="//@cell.34/@entry.0" source="//@cell.35/@call.6"/>
+
+    <--  SrcPath=::StarterTaskBody.cPrintDisplayControl DstPath=::PrintDisplayTaskBody.ePrintDisplayControl -->
+    <join target="//@cell.39/@entry.0" source="//@cell.35/@call.7"/>
+
+    <--  SrcPath=::StarterTaskBody.cButtonSetValue DstPath=::ButtonSetTaskBody.eButtonSetValue -->
+    <join target="//@cell.40/@entry.0" source="//@cell.35/@call.8"/>
+
+    <--  SrcPath=::StarterTaskBody.cBattery DstPath=::Battery.eBattery -->
+    <join target="//@cell.23/@entry.0" source="//@cell.35/@call.9"/>
+
+    <--  SrcPath=::StarterTaskBody.cLightSensor DstPath=::LightSensor.eSensor -->
+    <join target="//@cell.16/@entry.0" source="//@cell.35/@call.10"/>
+
+    <--  SrcPath=::StarterTaskBody.cTouchSensor DstPath=::TouchSensor.eSensor -->
+    <join target="//@cell.17/@entry.0" source="//@cell.35/@call.11"/>
+
+    <--  SrcPath=::StarterTaskBody.cBalancerControl DstPath=::BalancerTaskBody.eBalancerControl -->
+    <join target="//@cell.30/@entry.1" source="//@cell.35/@call.12"/>
+
+    <--  SrcPath=::StarterTaskBody.cLinetracerControl DstPath=::LinetracerTaskBody.eLinetracerControl -->
+    <join target="//@cell.32/@entry.1" source="//@cell.35/@call.13"/>
+
+    <--  SrcPath=::StarterTaskBody.cGetLogControl DstPath=::GetLogTaskBody.eGetLogControl -->
+    <join target="//@cell.41/@entry.1" source="//@cell.35/@call.14"/>
+
+    <--  SrcPath=::StarterTaskBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.35/@call.0"/>
+
+    <--  SrcPath=::StarterTask.cBody DstPath=::StarterTaskBody.eBody -->
+    <join target="//@cell.35/@entry.0" source="//@cell.36/@call.0"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cSerialPort DstPath=::SerialPort1.eSerialPort -->
+    <join target="//@cell.9/@entry.0" source="//@cell.37/@call.1"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cSysLog DstPath=::SysLog.eSysLog -->
+    <join target="//@cell.12/@entry.0" source="//@cell.37/@call.2"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cLinetracerControl DstPath=::LinetracerTaskBody.eLinetracerControl -->
+    <join target="//@cell.32/@entry.1" source="//@cell.37/@call.3"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cBalancerControl DstPath=::BalancerTaskBody.eBalancerControl -->
+    <join target="//@cell.30/@entry.1" source="//@cell.37/@call.4"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cTailController DstPath=::TailControllerTaskBody.eTailController -->
+    <join target="//@cell.28/@entry.1" source="//@cell.37/@call.5"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cSemaphore DstPath=::StartSemaphore.eSemaphore -->
+    <join target="//@cell.34/@entry.0" source="//@cell.37/@call.6"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cPrintDisplayControl DstPath=::PrintDisplayTaskBody.ePrintDisplayControl -->
+    <join target="//@cell.39/@entry.0" source="//@cell.37/@call.8"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cTouchSensor DstPath=::TouchSensor.eSensor -->
+    <join target="//@cell.17/@entry.0" source="//@cell.37/@call.7"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cBalancerTask DstPath=::BalancerTask.eCyclic -->
+    <join target="//@cell.31/@entry.0" source="//@cell.37/@call.9"/>
+
+    <--  SrcPath=::GetCommandTaskBody.cLinetracerTask DstPath=::LinetracerTask.eCyclic -->
+    <join target="//@cell.33/@entry.0" source="//@cell.37/@call.10"/>
+
+    <--  SrcPath=::GetCommandTaskBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.37/@call.0"/>
+
+    <--  SrcPath=::GetCommandTask.cBody DstPath=::GetCommandTaskBody.eBody -->
+    <join target="//@cell.37/@entry.0" source="//@cell.38/@call.0"/>
+
+    <--  SrcPath=::PrintDisplayTaskBody.cDisplay DstPath=::Display.eDisplay -->
+    <join target="//@cell.24/@entry.0" source="//@cell.39/@call.0"/>
+
+    <--  SrcPath=::ButtonSetTaskBody.cButton DstPath=::Button.eButton -->
+    <join target="//@cell.1/@entry.0" source="//@cell.40/@call.1"/>
+
+    <--  SrcPath=::ButtonSetTaskBody.cTouchSensor DstPath=::TouchSensor.eSensor -->
+    <join target="//@cell.17/@entry.0" source="//@cell.40/@call.8"/>
+
+    <--  SrcPath=::ButtonSetTaskBody.cDisplay DstPath=::Display.eDisplay -->
+    <join target="//@cell.24/@entry.0" source="//@cell.40/@call.2"/>
+
+    <--  SrcPath=::ButtonSetTaskBody.cPIDControl DstPath=::PIDControllerTaskBody.ePIDControl -->
+    <join target="//@cell.27/@entry.0" source="//@cell.40/@call.3"/>
+
+    <--  SrcPath=::ButtonSetTaskBody.cLinetracerControl DstPath=::LinetracerTaskBody.eLinetracerControl -->
+    <join target="//@cell.32/@entry.1" source="//@cell.40/@call.4"/>
+
+    <--  SrcPath=::ButtonSetTaskBody.cBalancerControl DstPath=::BalancerTaskBody.eBalancerControl -->
+    <join target="//@cell.30/@entry.1" source="//@cell.40/@call.5"/>
+
+    <--  SrcPath=::ButtonSetTaskBody.cTailController DstPath=::TailControllerTaskBody.eTailController -->
+    <join target="//@cell.28/@entry.1" source="//@cell.40/@call.6"/>
+
+    <--  SrcPath=::ButtonSetTaskBody.cPrintDisplayControl DstPath=::PrintDisplayTaskBody.ePrintDisplayControl -->
+    <join target="//@cell.39/@entry.0" source="//@cell.40/@call.7"/>
+
+    <--  SrcPath=::ButtonSetTaskBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.40/@call.0"/>
+
+    <--  SrcPath=::GetLogTaskBody.cSerialPort DstPath=::SerialPort1.eSerialPort -->
+    <join target="//@cell.9/@entry.0" source="//@cell.41/@call.1"/>
+
+    <--  SrcPath=::GetLogTaskBody.cSysLog DstPath=::SysLog.eSysLog -->
+    <join target="//@cell.12/@entry.0" source="//@cell.41/@call.2"/>
+
+    <--  SrcPath=::GetLogTaskBody.cLinetracerControl DstPath=::LinetracerTaskBody.eLinetracerControl -->
+    <join target="//@cell.32/@entry.1" source="//@cell.41/@call.3"/>
+
+    <--  SrcPath=::GetLogTaskBody.cBalancerControl DstPath=::BalancerTaskBody.eBalancerControl -->
+    <join target="//@cell.30/@entry.1" source="//@cell.41/@call.4"/>
+
+    <--  SrcPath=::GetLogTaskBody.cTailController DstPath=::TailControllerTaskBody.eTailController -->
+    <join target="//@cell.28/@entry.1" source="//@cell.41/@call.5"/>
+
+    <--  SrcPath=::GetLogTaskBody.cSemaphore DstPath=::StartSemaphore.eSemaphore -->
+    <join target="//@cell.34/@entry.0" source="//@cell.41/@call.6"/>
+
+    <--  SrcPath=::GetLogTaskBody.cLightSensor DstPath=::LightSensor.eSensor -->
+    <join target="//@cell.16/@entry.0" source="//@cell.41/@call.7"/>
+
+    <--  SrcPath=::GetLogTaskBody.cRightMotor DstPath=::RightMotor.eMotor -->
+    <join target="//@cell.20/@entry.0" source="//@cell.41/@call.8"/>
+
+    <--  SrcPath=::GetLogTaskBody.cLeftMotor DstPath=::LeftMotor.eMotor -->
+    <join target="//@cell.21/@entry.0" source="//@cell.41/@call.9"/>
+
+    <--  SrcPath=::GetLogTaskBody._require_call_port_tKernel_eKernel DstPath=::ASPKernel.eKernel -->
+    <join target="//@cell.6/@entry.0" source="//@cell.41/@call.0"/>
+
+    <--  SrcPath=::GetLogTask.cBody DstPath=::GetLogTaskBody.eBody -->
+    <join target="//@cell.41/@entry.0" source="//@cell.42/@call.0"/>
+</TECS:GUI_Tool>

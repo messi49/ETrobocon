@@ -1,0 +1,378 @@
+/*
+ *   TOPPERS Software
+ *       Toyohashi Open Platform for Embedded Real-Time Systems
+ *  
+ *   Copyright (C) 2010-2012 by Embedded and Real-Time Systems Laboratory
+ *               Graduate School of Information Science, Nagoya Univ., JAPAN
+ *  
+ *   上記著作権者は，以下の(1)〜(4)の条件を満たす場合に限り，本ソフトウェ
+ *   ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
+ *   変・再配布（以下，利用と呼ぶ）することを無償で許諾する．
+ *   (1) 本ソフトウェアをソースコードの形で利用する場合には，上記の著作
+ *       権表示，この利用条件および下記の無保証規定が，そのままの形でソー
+ *       スコード中に含まれていること．
+ *   (2) 本ソフトウェアを，ライブラリ形式など，他のソフトウェア開発に使
+ *       用できる形で再配布する場合には，再配布に伴うドキュメント（利用
+ *       者マニュアルなど）に，上記の著作権表示，この利用条件および下記
+ *       の無保証規定を掲載すること．
+ *   (3) 本ソフトウェアを，機器に組み込むなど，他のソフトウェア開発に使
+ *       用できない形で再配布する場合には，次のいずれかの条件を満たすこ
+ *       と．
+ *     (a) 再配布に伴うドキュメント（利用者マニュアルなど）に，上記の著
+ *         作権表示，この利用条件および下記の無保証規定を掲載すること．
+ *     (b) 再配布の形態を，別に定める方法によって，TOPPERSプロジェクトに
+ *         報告すること．
+ *   (4) 本ソフトウェアの利用により直接的または間接的に生じるいかなる損
+ *       害からも，上記著作権者およびTOPPERSプロジェクトを免責すること．
+ *       また，本ソフトウェアのユーザまたはエンドユーザからのいかなる理
+ *       由に基づく請求からも，上記著作権者およびTOPPERSプロジェクトを
+ *       免責すること．
+ *  
+ *   本ソフトウェアは，無保証で提供されているものである．上記著作権者お
+ *   よびTOPPERSプロジェクトは，本ソフトウェアに関して，特定の使用目的
+ *   に対する適合性も含めて，いかなる保証も行わない．また，本ソフトウェ
+ *   アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
+ *   の責任を負わない．
+ *
+ */
+
+/*
+ *  組み上げ記述
+ */
+/*
+ *  システムログ機構
+ */
+cell tSerialPort SerialPort1 {
+	/* 呼び口の結合 */
+	cSIOPort = SIOPortTarget.eSIOPort;
+	receiveBufferSize = 256;
+	sendBufferSize = 256;
+};
+
+cell tSysLog SysLog {
+	/* 呼び口の結合 */
+	cPutLog = PutLogTarget.ePutLog;
+	logBufferSize = 32;
+};
+
+cell tLogTask LogTask {
+	/* 呼び口の結合 */
+	cSerialPort = SerialPort1.eSerialPort;
+	cnSerialPort = SerialPort1.enSerialPort;
+	cSysLog = SysLog.eSysLog;
+	cPutLog = PutLogTarget.ePutLog;
+	/* 属性の設定 */
+	taskAttribute = C_EXP("TA_ACT");
+	priority = 3;
+	stackSize = LogTaskStackSize;
+	
+};
+
+/*
+ *  センサ
+ */
+cell tGyroSensor GyroSensor{
+	portNumber = NXT_PORT_S1;
+	cAvrSensor = AVR.eAvrSensor;
+};
+
+cell tSonicSensor SonicSensor{
+	portNumber = NXT_PORT_S2;
+	cAvrSensor = AVR.eAvrSensor;
+};
+
+cell tLightSensor LightSensor{
+	portNumber = NXT_PORT_S3;
+	cAvrSensor = AVR.eAvrSensor;
+};
+
+cell tTouchSensor TouchSensor{
+	portNumber = NXT_PORT_S4;
+	cAvrSensor = AVR.eAvrSensor;
+};
+
+cell tSensorDriver SensorDriver{
+	ciSensorDriver[0] = GyroSensor.eiSensorDriver;
+	ciSensorDriver[1] = SonicSensor.eiSensorDriver;
+	ciSensorDriver[2] = LightSensor.eiSensorDriver;
+	ciSensorDriver[3] = TouchSensor.eiSensorDriver;
+};
+
+/*
+ *  モータ
+ */
+cell tMotor TailMotor{
+	portNumber = NXT_PORT_A;
+	cAvrMotor = AVR.eAvrMotor;
+};
+
+cell tMotor RightMotor{
+	portNumber = NXT_PORT_B;
+	cAvrMotor = AVR.eAvrMotor;
+};
+
+cell tMotor LeftMotor{
+	portNumber = NXT_PORT_C;
+	cAvrMotor = AVR.eAvrMotor;
+};
+
+cell tRotaryEncoder RotaryEncoder{
+	ciMotorInterrupt[0] = TailMotor.eiMotorInterrupt;
+	ciMotorInterrupt[1] = RightMotor.eiMotorInterrupt;
+	ciMotorInterrupt[2] = LeftMotor.eiMotorInterrupt;
+};
+
+/*
+ *  バッテリセンサ
+ */
+cell tBattery Battery{
+	cAvrBattery = AVR.eAvrBattery;
+};
+
+/*
+ *  ディスプレイ
+ */
+cell tDisplay Display{
+};
+
+/*
+ *  サウンド
+ */
+cell tSound Sound{
+};
+
+/*
+ *  バランサ（ライブラリ）
+ */
+cell tBalancer Balancer{
+};
+
+/*
+ *  ASPカーネル
+ */
+cell tKernel ASPKernel{
+};
+
+/*
+ *  PID制御タスク by no(13/08/18)
+ */
+cell tPIDControllerTaskBody PIDControllerTaskBody{
+	//kp = 0.6;	//0.75, 0.6 , 0.36
+	//ki = 0;  	//0, 0.4 , 1.2 (0.00->0.01->0.06)
+	//kd = 0.2;	//0.85, 0.2 , 0.027
+
+};
+
+/*
+ *  尻尾制御タスク
+ */
+cell tTailControllerTaskBody TailControllerTaskBody{
+	cTailMotor = TailMotor.eMotor;       // 尻尾モータの呼び口
+	
+	tailAngleStop = 106; //90度倒立
+	tailAngleDrive = 60; //60:
+	kp = 2.5;
+	maxPwm = 60;
+	minPwm = -60;
+};
+cell tCyclicTask TailControllerTask{
+	cBody = TailControllerTaskBody.eBody;
+
+	cyclicAttribute = C_EXP("TA_NULL");
+	cyclicTime = 4;
+	cyclicPhase = 1;
+	priority = 5;
+	stackSize = 512;
+};
+
+/*
+ *  バランサタスク
+ */
+cell tBalancerTaskBody BalancerTaskBody{
+	cRightMotor = RightMotor.eMotor;
+	cLeftMotor = LeftMotor.eMotor;
+	cGyroSensor = GyroSensor.eSensor;
+	cBattery = Battery.eBattery;
+	cBalancer = Balancer.eBalancer;
+	
+	//fujiya
+	cPrintDisplayControl = PrintDisplayTaskBody.ePrintDisplayControl;
+
+	maxSpeed = 100;
+	minSpeed = -100;
+
+};
+
+cell tCyclicTask BalancerTask{
+	cBody = BalancerTaskBody.eBody;
+
+	cyclicAttribute = C_EXP("TA_NULL");
+	cyclicTime = 4;
+	cyclicPhase = 1;
+	priority = 1;
+	stackSize = 1024;
+};
+
+/*
+ *  ライントレーサタスク
+ */
+cell tLinetracerTaskBody LinetracerTaskBody{
+	cLightSensor = LightSensor.eSensor;
+	cLightSensorControl = LightSensor.eSensorControl;
+	cBalancerControl = BalancerTaskBody.eBalancerControl;
+
+	cPIDControl = PIDControllerTaskBody.ePIDControl; //no(13/08/18)
+	//fujiya
+	cPrintDisplayControl = PrintDisplayTaskBody.ePrintDisplayControl;
+
+	//fujiya from zukky program
+	cRightMotor = RightMotor.eMotor;// モータの回転数の取得のため(2011/08/17 itwu added)
+ 	cLeftMotor = LeftMotor.eMotor;// モータの回転数の取得のため(2011/08/17 itwu added)
+
+ 	cBalancerTask = BalancerTask.eCyclic;
+	cLinetracerTask = LinetracerTask.eCyclic;
+  
+	maxTurn = 100;
+	minTurn = -100;
+
+};
+
+cell tCyclicTask LinetracerTask{
+	cBody = LinetracerTaskBody.eBody;
+
+	cyclicAttribute = C_EXP("TA_NULL");
+	cyclicTime = 10;
+	cyclicPhase = 1;
+	priority = 4;
+	stackSize = 512;
+};
+
+/*
+ *  スタートシグナル用セマフォ
+ */
+cell tSemaphore StartSemaphore{
+	attribute = C_EXP("TA_NULL");
+    	count = 0;  /* 初期資源数は0 */
+    	max = 1;    /* 最大資源数は1 */
+};
+
+/*
+ *  スタータタスク
+ */
+cell tStarterTaskBody StarterTaskBody{
+    /*
+     *  周期タスクの起動
+     */
+	cTailControllerTask = TailControllerTask.eCyclic;
+	cBalancerTask = BalancerTask.eCyclic;
+	cLinetracerTask = LinetracerTask.eCyclic;
+	cTailController = TailControllerTaskBody.eTailController;
+	cGetLogTask = GetLogTask.eCyclic;
+
+    cSemaphore = StartSemaphore.eSemaphore;
+	//fujiya
+	cPrintDisplayControl = PrintDisplayTaskBody.ePrintDisplayControl;
+
+	//added by no 2013.08.26
+	cButtonSetValue = ButtonSetTaskBody.eButtonSetValue;
+
+	cBattery = Battery.eBattery;
+	cLightSensor = LightSensor.eSensor;
+	cTouchSensor = TouchSensor.eSensor;
+	cBalancerControl = BalancerTaskBody.eBalancerControl;
+	cLinetracerControl = LinetracerTaskBody.eLinetracerControl;
+
+	cGetLogControl = GetLogTaskBody.eGetLogControl;
+};
+
+cell tTask StarterTask{
+	cBody = StarterTaskBody.eBody;
+
+	taskAttribute = C_EXP("TA_ACT");
+	priority = 6;
+	stackSize = 1024;
+};
+
+/*
+ *  コマンド受信タスク
+ */
+cell tGetCommandTaskBody GetCommandTaskBody{
+	cSerialPort = SerialPort1.eSerialPort;
+        cSysLog = SysLog.eSysLog;
+ 	cLinetracerControl = LinetracerTaskBody.eLinetracerControl;
+        cBalancerControl = BalancerTaskBody.eBalancerControl;
+	cTailController = TailControllerTaskBody.eTailController;
+
+    	cSemaphore = StartSemaphore.eSemaphore;
+
+
+	//fujiya
+	cPrintDisplayControl = PrintDisplayTaskBody.ePrintDisplayControl;
+        cTouchSensor = TouchSensor.eSensor;
+
+        	cBalancerTask = BalancerTask.eCyclic;
+	cLinetracerTask = LinetracerTask.eCyclic;
+};
+
+cell tTask GetCommandTask{
+	cBody = GetCommandTaskBody.eBody;
+
+	taskAttribute = C_EXP("TA_ACT");
+	priority = 5;
+	stackSize = 1024;
+};
+
+/*
+ *  fujiya
+ *	ディスプレイ表示
+ */
+cell tPrintDisplayTaskBody PrintDisplayTaskBody {
+	cDisplay = Display.eDisplay;
+};
+
+
+/*
+ *  ボタン制御用タスク
+ */
+cell tButtonSetTaskBody ButtonSetTaskBody{
+	cButton = Button.eButton;       // ボタンの呼び口
+	cTouchSensor = TouchSensor.eSensor;
+	cDisplay = Display.eDisplay;  //Displayの呼び口
+	cPIDControl = PIDControllerTaskBody.ePIDControl; //no(13/08/26)
+	cLinetracerControl = LinetracerTaskBody.eLinetracerControl; //no(13/08/26)
+	cBalancerControl = BalancerTaskBody.eBalancerControl; //no
+	cTailController = TailControllerTaskBody.eTailController; //no
+	cPrintDisplayControl = PrintDisplayTaskBody.ePrintDisplayControl;
+	
+};
+
+/*
+ *  messi
+ *  ログ出力タスク
+ */
+cell tGetLogTaskBody GetLogTaskBody{
+	cSerialPort = SerialPort1.eSerialPort;
+    cSysLog = SysLog.eSysLog;
+	cLinetracerControl = LinetracerTaskBody.eLinetracerControl;
+    cBalancerControl = BalancerTaskBody.eBalancerControl;
+	cTailController = TailControllerTaskBody.eTailController;
+
+    cSemaphore = StartSemaphore.eSemaphore;
+
+    cLightSensor = LightSensor.eSensor;
+
+    //fujiya
+	cRightMotor = RightMotor.eMotor; //モータの回転数の取得のため
+ 	cLeftMotor = LeftMotor.eMotor; //モータの回転数の取得のため
+
+};
+
+cell tCyclicTask GetLogTask{
+	cBody = GetLogTaskBody.eBody;
+	cyclicAttribute = C_EXP("TA_NULL");
+	cyclicTime = 20;
+	cyclicPhase = 1;
+	priority = 6;
+	stackSize = 1024;
+};
+

@@ -1,0 +1,152 @@
+TECS_IMPORT_CDLS = ../../target/mindstorms_nxt_gcc/target_syssvc_inst.cdl ../../syssvc/tLogTask.cdl ../../target/mindstorms_nxt_gcc/tPutLogMindstormsNXT.cdl ../../tecs_lib/mindstorms_nxt/tSensor_decl.cdl ../../include/kernel.cdl ../../tecs_lib/mindstorms_nxt/tBalancer_decl.cdl ../../tecs_lib/mindstorms_nxt/tMotor_decl.cdl ../../tecs_lib/mindstorms_nxt/tFlash_decl.cdl ../../tecs_lib/mindstorms_nxt/tAVR_decl.cdl ../../tecs_lib/mindstorms_nxt/tTWI_decl.cdl ./gen/tmp_plugin_post_code.cdl ./tSample_inst.cdl ../../tecs_lib/mindstorms_nxt/tBluetooth_inst.cdl ../../target/mindstorms_nxt_gcc/target_syssvc_decl.cdl ../../syssvc/tSerialPort.cdl ../../tecs_lib/mindstorms_nxt/ram_only.cdl ../../tecs_lib/mindstorms_nxt/tSound_decl.cdl ../../tecs_lib/mindstorms_nxt/tDisplay_decl.cdl ../../tecs_lib/mindstorms_nxt/tBluetooth_decl.cdl ../../tecs_lib/mindstorms_nxt/target_lib_inst.cdl ../../tecs_lib/mindstorms_nxt/tBattery_decl.cdl ../../tecs_lib/mindstorms_nxt/tButton_decl.cdl ../../tecs_lib/mindstorms_nxt/tLCD_decl.cdl ./tSample.cdl ./tSample_decl.cdl ../../target/mindstorms_nxt_gcc/tSIOPortMindstormsNXT.cdl ../../tecs_lib/mindstorms_nxt/tSPI_decl.cdl ../../syssvc/tSysLog.cdl ../../tecs_lib/mindstorms_nxt/target_lib_decl.cdl
+TECS_IMPORT_HEADERS = ../../include/tecs_kernel.h ../../include/t_syslog.h
+
+TECS_IMPORTS = $(TECS_IMPORT_CDLS) $(TECS_IMPORT_HEADERS)
+
+TECSGEN_COBJS = \
+ 	$(_TECS_OBJ_DIR)tTask_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tInitializeRoutine_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tTerminateRoutine_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tISR_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tConfigInterrupt_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tCyclicHandler_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tCyclicTaskActivator_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tAlarmHandler_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSemaphore_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tKernel_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tTWIBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tAVRBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tMotor_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tRotaryEncoderBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSensorPort_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tI2C_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tLightSensorBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tGyroSensorBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tTouchSensorBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSonicSensorBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSensorDriverBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSPIBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tLCD_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tDisplayBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tButtonBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tBattery_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSoundBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tBluetoothBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tConnectBluetooth_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tBalancerBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tCheckNXTButtonBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSIOPortMindstormsNXT_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tPutLogMindstormsNXT_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSerialPortMain_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tSysLog_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tLogTaskMain_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tPrintDisplayTaskBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tPIDControllerTaskBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tTailControllerTaskBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tBalancerTaskBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tLinetracerTaskBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tButtonSetTaskBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tGetLogTaskBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tStarterTaskBody_tecsgen.o \
+ 	$(_TECS_OBJ_DIR)tGetCommandTaskBody_tecsgen.o \
+# TECSGEN_COBJS terminator
+
+PLUGIN_COBJS = \
+# PLUGIN_COBJS terminator
+
+CELLTYPE_COBJS = \
+ 	$(_TECS_OBJ_DIR)tTask.o \
+ 	$(_TECS_OBJ_DIR)tInitializeRoutine.o \
+ 	$(_TECS_OBJ_DIR)tTerminateRoutine.o \
+ 	$(_TECS_OBJ_DIR)tISR.o \
+ 	$(_TECS_OBJ_DIR)tCyclicHandler.o \
+ 	$(_TECS_OBJ_DIR)tCyclicTaskActivator.o \
+ 	$(_TECS_OBJ_DIR)tAlarmHandler.o \
+ 	$(_TECS_OBJ_DIR)tTWIBody.o \
+ 	$(_TECS_OBJ_DIR)tAVRBody.o \
+ 	$(_TECS_OBJ_DIR)tMotor.o \
+ 	$(_TECS_OBJ_DIR)tRotaryEncoderBody.o \
+ 	$(_TECS_OBJ_DIR)tSensorPort.o \
+ 	$(_TECS_OBJ_DIR)tI2C.o \
+ 	$(_TECS_OBJ_DIR)tSensorDriverBody.o \
+ 	$(_TECS_OBJ_DIR)tSPIBody.o \
+ 	$(_TECS_OBJ_DIR)tLCD.o \
+ 	$(_TECS_OBJ_DIR)tDisplayBody.o \
+ 	$(_TECS_OBJ_DIR)tButtonBody.o \
+ 	$(_TECS_OBJ_DIR)tSoundBody.o \
+ 	$(_TECS_OBJ_DIR)tBluetoothBody.o \
+ 	$(_TECS_OBJ_DIR)tConnectBluetooth.o \
+ 	$(_TECS_OBJ_DIR)tCheckNXTButtonBody.o \
+ 	$(_TECS_OBJ_DIR)tSIOPortMindstormsNXT.o \
+ 	$(_TECS_OBJ_DIR)tPutLogMindstormsNXT.o \
+ 	$(_TECS_OBJ_DIR)tSerialPortMain.o \
+ 	$(_TECS_OBJ_DIR)tSysLog.o \
+ 	$(_TECS_OBJ_DIR)tLogTaskMain.o \
+ 	$(_TECS_OBJ_DIR)tPrintDisplayTaskBody.o \
+ 	$(_TECS_OBJ_DIR)tPIDControllerTaskBody.o \
+ 	$(_TECS_OBJ_DIR)tTailControllerTaskBody.o \
+ 	$(_TECS_OBJ_DIR)tBalancerTaskBody.o \
+ 	$(_TECS_OBJ_DIR)tLinetracerTaskBody.o \
+ 	$(_TECS_OBJ_DIR)tButtonSetTaskBody.o \
+ 	$(_TECS_OBJ_DIR)tGetLogTaskBody.o \
+ 	$(_TECS_OBJ_DIR)tStarterTaskBody.o \
+ 	$(_TECS_OBJ_DIR)tGetCommandTaskBody.o \
+# CELLTYPE_COBJS terminator
+
+TECS_COBJS = $(TECSGEN_COBJS) $(PLUGIN_COBJS) $(CELLTYPE_COBJS)
+
+TECSGEN_SRCS = \
+ 	$(GEN_DIR)/tTask_tecsgen.c \
+ 	$(GEN_DIR)/tInitializeRoutine_tecsgen.c \
+ 	$(GEN_DIR)/tTerminateRoutine_tecsgen.c \
+ 	$(GEN_DIR)/tISR_tecsgen.c \
+ 	$(GEN_DIR)/tConfigInterrupt_tecsgen.c \
+ 	$(GEN_DIR)/tCyclicHandler_tecsgen.c \
+ 	$(GEN_DIR)/tCyclicTaskActivator_tecsgen.c \
+ 	$(GEN_DIR)/tAlarmHandler_tecsgen.c \
+ 	$(GEN_DIR)/tSemaphore_tecsgen.c \
+ 	$(GEN_DIR)/tKernel_tecsgen.c \
+ 	$(GEN_DIR)/tTWIBody_tecsgen.c \
+ 	$(GEN_DIR)/tAVRBody_tecsgen.c \
+ 	$(GEN_DIR)/tMotor_tecsgen.c \
+ 	$(GEN_DIR)/tRotaryEncoderBody_tecsgen.c \
+ 	$(GEN_DIR)/tSensorPort_tecsgen.c \
+ 	$(GEN_DIR)/tI2C_tecsgen.c \
+ 	$(GEN_DIR)/tLightSensorBody_tecsgen.c \
+ 	$(GEN_DIR)/tGyroSensorBody_tecsgen.c \
+ 	$(GEN_DIR)/tTouchSensorBody_tecsgen.c \
+ 	$(GEN_DIR)/tSonicSensorBody_tecsgen.c \
+ 	$(GEN_DIR)/tSensorDriverBody_tecsgen.c \
+ 	$(GEN_DIR)/tSPIBody_tecsgen.c \
+ 	$(GEN_DIR)/tLCD_tecsgen.c \
+ 	$(GEN_DIR)/tDisplayBody_tecsgen.c \
+ 	$(GEN_DIR)/tButtonBody_tecsgen.c \
+ 	$(GEN_DIR)/tBattery_tecsgen.c \
+ 	$(GEN_DIR)/tSoundBody_tecsgen.c \
+ 	$(GEN_DIR)/tBluetoothBody_tecsgen.c \
+ 	$(GEN_DIR)/tConnectBluetooth_tecsgen.c \
+ 	$(GEN_DIR)/tBalancerBody_tecsgen.c \
+ 	$(GEN_DIR)/tCheckNXTButtonBody_tecsgen.c \
+ 	$(GEN_DIR)/tSIOPortMindstormsNXT_tecsgen.c \
+ 	$(GEN_DIR)/tPutLogMindstormsNXT_tecsgen.c \
+ 	$(GEN_DIR)/tSerialPortMain_tecsgen.c \
+ 	$(GEN_DIR)/tSysLog_tecsgen.c \
+ 	$(GEN_DIR)/tLogTaskMain_tecsgen.c \
+ 	$(GEN_DIR)/tPrintDisplayTaskBody_tecsgen.c \
+ 	$(GEN_DIR)/tPIDControllerTaskBody_tecsgen.c \
+ 	$(GEN_DIR)/tTailControllerTaskBody_tecsgen.c \
+ 	$(GEN_DIR)/tBalancerTaskBody_tecsgen.c \
+ 	$(GEN_DIR)/tLinetracerTaskBody_tecsgen.c \
+ 	$(GEN_DIR)/tButtonSetTaskBody_tecsgen.c \
+ 	$(GEN_DIR)/tGetLogTaskBody_tecsgen.c \
+ 	$(GEN_DIR)/tStarterTaskBody_tecsgen.c \
+ 	$(GEN_DIR)/tGetCommandTaskBody_tecsgen.c \
+# TECSGEN_SRCS terminator
+
+PLUGIN_SRCS = \
+# PLUGIN_SRCS terminator
+
+SYSSVC_COBJS := balancer.o balancer_param.o $(SYSSVC_COBJS)
+INCLUDES := -I$(SRCDIR)/tecs_lib/mindstorms_nxt/balancer $(INCLUDES)
+vpath %.c $(SRCDIR)/tecs_lib/mindstorms_nxt/balancer
+USE_SYSLOG = ture
